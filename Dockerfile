@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y tzdata && \
 # Selenium
 RUN apt-get update && \
     apt-get install -y \
+    procps \
     chromium \
     chromium-driver \
     xvfb \
