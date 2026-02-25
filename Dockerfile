@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y tzdata && \
     ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
 
-# Selenium
+# Selenium 
+# pkill for killing zombie processes
 RUN apt-get update && \
     apt-get install -y \
     procps \
