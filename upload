@@ -42,13 +42,23 @@ elif [[ $(command -v docker) != "" ]]; then
         fi
         DOCKER_CHOICE=${DOCKER_CHOICE:-1}
 
+        DATE_TAG=$(date +%Y%m%d)
         if [[ "$DOCKER_CHOICE" == "1" ]]; then
             echo "Building and pushing native platform image..."
-            sudo docker build --tag ${DOCKERHUB_USER}/${REPO_NAME}:latest .
+            sudo docker build \
+                --tag ${DOCKERHUB_USER}/${REPO_NAME}:latest \
+                --tag ${DOCKERHUB_USER}/${REPO_NAME}:${DATE_TAG} \
+                .
             sudo docker image push ${DOCKERHUB_USER}/${REPO_NAME}:latest
+            sudo docker image push ${DOCKERHUB_USER}/${REPO_NAME}:${DATE_TAG}
         elif [[ "$DOCKER_CHOICE" == "2" ]]; then
             echo "Building and pushing multi-platform image..."
-            sudo docker buildx build                 --platform linux/amd64,linux/arm64                 --tag ${DOCKERHUB_USER}/${REPO_NAME}:latest                 --push                 .
+            sudo docker buildx build \
+                --platform linux/amd64,linux/arm64 \
+                --tag ${DOCKERHUB_USER}/${REPO_NAME}:latest \
+                --tag ${DOCKERHUB_USER}/${REPO_NAME}:${DATE_TAG} \
+                --push \
+                .
         else
             echo "Skipping Docker Hub push."
         fi
